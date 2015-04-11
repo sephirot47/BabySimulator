@@ -4,50 +4,70 @@ using System.Collections.Generic;
 
 public class Baby : MonoBehaviour 
 {
-	private static int numArticulations = 10;
-	private float rotSpeed = 1.0f, jumpForce = 50.0f;
+	private static int numArticulations = 4;
+	private float rotSpeed = 1.0f, jumpForce = 100.0f;
+
+	private Quaternion originalHipLRotation, originalHipRRotation; 
+	private Transform initialTransform;
+
+	public KeyCode forwardKey, backwardKey, leftKey, rightKey, jumpKey, resetKey; 
 
 	private class Articulations
 	{
-		public static int  Head = 0,
-						   ShoulderR = 1, ElbowR = 2, 
-						   ShoulderL = 3, ElbowL = 4, 
-						   HipR = 5, KneeR = 6,
-						   HipL = 7, KneeL = 8,
-						   Spine = 9;
+		public static int HipR = 0, KneeR = 1,
+						  HipL = 2, KneeL = 3;
 	}
 
 	List<Transform> articulations;
 	
-	Transform head, 
-			  shoulderR, elbowR, handR, 
-			  shoulderL, elbowL, handL, 
-			  hipR, kneeR, footR,
-		      hipL, kneeL, footL,
-			  spine;
+	Transform hipR, kneeR,
+		      hipL, kneeL;
 
 	void Start() 
 	{
+		initialTransform = transform;
+
 		articulations = new List<Transform>();
 		for (int i = 0; i < numArticulations; ++i) articulations.Add (null);
 
-		articulations[Articulations.Head] = GameObject.Find("ORG-neck").GetComponent<Transform>();
-		articulations[Articulations.ShoulderR] = GameObject.Find("ORG-shoulder_R").GetComponent<Transform>();
-		articulations[Articulations.ElbowR] = GameObject.Find("ORG-forearm_R").GetComponent<Transform>();
-		articulations[Articulations.ShoulderL] = GameObject.Find("ORG-shoulder_L").GetComponent<Transform>();
-		articulations[Articulations.HipR] = GameObject.Find("ORG-thigh_R").GetComponent<Transform>();
-		articulations[Articulations.KneeR] = GameObject.Find("ORG-shin_R").GetComponent<Transform>();
-		articulations[Articulations.HipL] = GameObject.Find("ORG-thigh_L").GetComponent<Transform>();
-		articulations[Articulations.KneeL] = GameObject.Find("ORG-shin_L").GetComponent<Transform>();
-		articulations[Articulations.Spine] = GameObject.Find("ORG-spine").GetComponent<Transform>();
+		foreach (Transform t in GetComponentsInChildren<Transform>())
+		{
+			GameObject go = t.gameObject;
+			if(go.name == "ORG-thigh_R") articulations[Articulations.HipR] = t;
+			if(go.name == "ORG-shin_R")  articulations[Articulations.KneeR] = t;
+			if(go.name == "ORG-thigh_L") articulations[Articulations.HipL] = t;
+			if(go.name == "ORG-shin_L")  articulations[Articulations.KneeL] = t;
+		}
+
+		originalHipLRotation = new Quaternion(articulations[Articulations.HipL].rotation.x, articulations[Articulations.HipL].rotation.y,
+		                                      articulations[Articulations.HipL].rotation.z, articulations[Articulations.HipL].rotation.w);
+
+		originalHipRRotation = new Quaternion(articulations[Articulations.HipR].rotation.x, articulations[Articulations.HipR].rotation.y,
+		                                      articulations[Articulations.HipR].rotation.z, articulations[Articulations.HipR].rotation.w);
 	}
-	
+
+	bool Jumping()
+	{
+		return Mathf.Abs(GetComponent<Rigidbody>().velocity.y) > 4.0f;
+	}
+
 	void Update() 
 	{
-		float speed = rotSpeed;
-		if( Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.W))
+		if(Jumping())
 		{
-			if( Input.GetKey(KeyCode.W) ) speed *= -1;
+			Vector3 axis = Vector3.Cross(Vector3.up, transform.forward);
+
+			if( Input.GetKey(forwardKey) ) GetComponent<Rigidbody>().AddForce(transform.forward, ForceMode.VelocityChange);
+			if( Input.GetKey(backwardKey) ) GetComponent<Rigidbody>().AddForce(-transform.forward, ForceMode.VelocityChange);
+
+			if( Input.GetKey(leftKey) ) GetComponent<Rigidbody>().AddForce(-axis, ForceMode.VelocityChange);
+			if( Input.GetKey(rightKey) ) GetComponent<Rigidbody>().AddForce(axis, ForceMode.VelocityChange);
+		}
+
+		float speed = rotSpeed;
+		if(!Jumping() && Input.GetKey(forwardKey) || Input.GetKey(backwardKey))
+		{
+			if( Input.GetKey(backwardKey) ) speed *= -1;
 
 			Vector3 axis = new Vector3(0, 1, 0);
 
@@ -56,15 +76,34 @@ public class Baby : MonoBehaviour
 
 			t = articulations[Articulations.HipR];
 			t.rotation *= Quaternion.AngleAxis(-speed, axis);
+
+			GetComponent<Rigidbody>().AddForce( Mathf.Abs(speed) * transform.forward, ForceMode.VelocityChange);
+
+			if(Input.GetKey(forwardKey)) GetComponent<Rigidbody>().AddTorque(transform.forward * 0.4f, ForceMode.VelocityChange);
+			else if(Input.GetKey(backwardKey)) GetComponent<Rigidbody>().AddTorque(-transform.forward * 0.4f, ForceMode.VelocityChange);
 		}
 		
-		if( Input.GetKeyDown(KeyCode.Space) )
+		if( Input.GetKeyDown(jumpKey) && !Jumping())
 		{
 			GetComponent<Rigidbody>().AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
 		}
 
-		if( Input.GetKey(KeyCode.A) ) GetComponent<Rigidbody>().AddTorque(new Vector3(-jumpForce, 0, 0), ForceMode.VelocityChange);
-		if( Input.GetKey(KeyCode.D) ) GetComponent<Rigidbody>().AddTorque(new Vector3( jumpForce, 0, 0), ForceMode.VelocityChange);
+		if( Input.GetKey(leftKey) ) GetComponent<Rigidbody>().AddTorque(transform.forward, ForceMode.VelocityChange);
+		if( Input.GetKey(rightKey) ) GetComponent<Rigidbody>().AddTorque(-transform.forward, ForceMode.VelocityChange);
 
+		if( Input.GetKeyDown(resetKey) )
+		{
+			articulations[Articulations.HipL].rotation = originalHipLRotation;
+			articulations[Articulations.HipR].rotation = originalHipRRotation;
+
+			transform.position = new Vector3(transform.position.x, transform.position.y + 5.0f, transform.position.z);
+			transform.rotation = Quaternion.identity;
+		}
+
+		if( Input.GetKeyDown(KeyCode.T) )
+		{
+			transform.position = initialTransform.position;
+			transform.rotation = initialTransform.rotation;
+		}
 	}
 }
