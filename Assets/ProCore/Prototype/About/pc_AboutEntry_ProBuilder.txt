@@ -1,0 +1,6 @@
+name: Prototype
+identifier: ProBuilder2_AboutWindowIdentifier
+version: 2.4.3p0
+revision: 3216
+date: 03-13-2015
+changelog: Assets/ProCore/Prototype/About/changelog.txt

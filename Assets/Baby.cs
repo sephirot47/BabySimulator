@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Baby : MonoBehaviour 
 {
 	private static int numArticulations = 4;
-	private float rotSpeed = 1.0f, jumpForce = 100.0f;
+	private float rotSpeed = 1.0f, jumpForce = 10.0f;
 
 	private Quaternion originalHipLRotation, originalHipRRotation; 
 	private Transform initialTransform;

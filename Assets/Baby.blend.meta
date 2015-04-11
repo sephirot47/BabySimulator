@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 35ddfc3fab0296d42b5837d73605c02d
 ModelImporter:
-  serializedVersion: 16
+  serializedVersion: 18
   fileIDToRecycleName:
     100000: //RootNode
     100002: DEF-breast_L
@@ -792,18 +792,102 @@ ModelImporter:
     4300008: v5_Shirt01
     4300010: v5_jeans01
     4300012: v5Body
+    4300014: WGT-root
+    4300016: WGT-thumb_03_R
+    4300018: WGT-thumb_02_R
+    4300020: WGT-thumb_01_R
+    4300022: WGT-thumb_R
+    4300024: WGT-thumb_03_L
+    4300026: WGT-thumb_02_L
+    4300028: WGT-thumb_01_L
+    4300030: WGT-thumb_L
+    4300032: WGT-f_ring_03_R
+    4300034: WGT-f_ring_02_R
+    4300036: WGT-f_ring_01_R
+    4300038: WGT-f_ring_R
+    4300040: WGT-f_ring_03_L
+    4300042: WGT-f_ring_02_L
+    4300044: WGT-f_ring_01_L
+    4300046: WGT-f_ring_L
+    4300048: WGT-f_pinky_03_R
+    4300050: WGT-f_pinky_02_R
+    4300052: WGT-f_pinky_01_R
+    4300054: WGT-f_pinky_R
+    4300056: WGT-f_pinky_03_L
+    4300058: WGT-f_pinky_02_L
+    4300060: WGT-f_pinky_01_L
+    4300062: WGT-f_pinky_L
+    4300064: WGT-f_middle_03_R
+    4300066: WGT-f_middle_02_R
+    4300068: WGT-f_middle_01_R
+    4300070: WGT-f_middle_R
+    4300072: WGT-f_middle_03_L
+    4300074: WGT-f_middle_02_L
+    4300076: WGT-f_middle_01_L
+    4300078: WGT-f_middle_L
+    4300080: WGT-f_index_03_R
+    4300082: WGT-f_index_02_R
+    4300084: WGT-f_index_01_R
+    4300086: WGT-f_index_R
+    4300088: WGT-f_index_03_L
+    4300090: WGT-f_index_02_L
+    4300092: WGT-f_index_01_L
+    4300094: WGT-f_index_L
     4300096: WGT-palm_R
     4300098: WGT-palm_L
     4300100: WGT-hand_ik_R
+    4300102: WGT-elbow_target_ik_R
+    4300104: WGT-VIS-hand_ik_R
+    4300106: WGT-VIS-upper_arm_pole_ik_R
     4300108: WGT-hand_fk_R
+    4300110: WGT-forearm_fk_R
+    4300112: WGT-upper_arm_fk_R
+    4300114: WGT-forearm_hose_R
+    4300116: WGT-elbow_hose_R
+    4300118: WGT-upper_arm_hose_R
     4300120: WGT-hand_ik_L
+    4300122: WGT-elbow_target_ik_L
+    4300124: WGT-VIS-hand_ik_L
+    4300126: WGT-VIS-upper_arm_pole_ik_L
     4300128: WGT-hand_fk_L
+    4300130: WGT-forearm_fk_L
+    4300132: WGT-upper_arm_fk_L
+    4300134: WGT-forearm_hose_L
+    4300136: WGT-elbow_hose_L
+    4300138: WGT-upper_arm_hose_L
+    4300140: WGT-shoulder_R
+    4300142: WGT-shoulder_L
+    4300144: WGT-head
+    4300146: WGT-neck
     4300148: WGT-foot_roll_ik_R
+    4300150: WGT-toe_R
     4300152: WGT-foot_ik_R
+    4300154: WGT-knee_target_ik_R
+    4300156: WGT-VIS-foot_ik_R
+    4300158: WGT-VIS-thigh_pole_ik_R
     4300160: WGT-foot_fk_R
+    4300162: WGT-shin_fk_R
+    4300164: WGT-thigh_fk_R
+    4300166: WGT-shin_hose_R
+    4300168: WGT-knee_hose_R
+    4300170: WGT-thigh_hose_R
     4300172: WGT-foot_roll_ik_L
+    4300174: WGT-toe_L
     4300176: WGT-foot_ik_L
+    4300178: WGT-knee_target_ik_L
+    4300180: WGT-VIS-foot_ik_L
+    4300182: WGT-VIS-thigh_pole_ik_L
     4300184: WGT-foot_fk_L
+    4300186: WGT-shin_fk_L
+    4300188: WGT-thigh_fk_L
+    4300190: WGT-shin_hose_L
+    4300192: WGT-knee_hose_L
+    4300194: WGT-thigh_hose_L
+    4300196: WGT-chest
+    4300198: WGT-hips
+    4300200: WGT-spine-1
+    4300202: WGT-spine
+    4300204: WGT-torso
     7400000: Default Take
     9500000: //RootNode
     13700000: v5_jeans01
@@ -839,11 +923,13 @@ ModelImporter:
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
+    keepQuads: 0
     weldVertices: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
+    useFileScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     splitTangentsAcrossUV: 1
@@ -866,3 +952,5 @@ ModelImporter:
   animationType: 2
   additionalBone: 0
   userData: 
+  assetBundleName: 
+  assetBundleVariant: 

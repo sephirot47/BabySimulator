@@ -15,7 +15,7 @@ public class Crib : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col)
 	{
-		if(col.collider.gameObject.name.Contains("Baby"))
+		if(col.GetComponent<Collider>().gameObject.name.Contains("Baby"))
 		{
 			Debug.Log("FINISHED!");
 		}
