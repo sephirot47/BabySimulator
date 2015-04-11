@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Baby : MonoBehaviour 
 {
 	private static int numArticulations = 4;
-	private float rotSpeed = 10.0f, forwardSpeed = 0.1f, sideSpeed = 0.1f, jumpForce = 12.0f;
+	private float rotSpeed = 30.0f, forwardSpeed = 0.1f, sideSpeed = 0.1f, jumpForce = 12.0f;
 
 	private Quaternion originalHipLRotation, originalHipRRotation; 
 	private Transform initialTransform;
@@ -84,11 +84,5 @@ public class Baby : MonoBehaviour
 
 		if( Input.GetKey(leftKey) ) GetComponent<Rigidbody>().AddTorque(new Vector3(0,0,1), ForceMode.Impulse);
 		if( Input.GetKey(rightKey) ) GetComponent<Rigidbody>().AddTorque(new Vector3(0,0,-1), ForceMode.Impulse);
-
-		if( Input.GetKeyDown(KeyCode.T) )
-		{
-			transform.position = initialTransform.position;
-			transform.rotation = initialTransform.rotation;
-		}
 	}
 }

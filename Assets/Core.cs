@@ -3,18 +3,43 @@ using System.Collections;
 
 public class Core : MonoBehaviour 
 {
-	public static int scoreWhite, scoreBlack;
-	public GUIStyle style;
+	public static int scoreWhite = 0, scoreBlack = 0;
+	public static int level = 1, maxLevel = 4;
+	public GUIStyle styleWhite, styleBlack;
 
-	void Start () 
+	public float time = 0.0f; 
+
+	void Start ()
 	{
-		scoreWhite = 0;
-		scoreBlack = 0;
-		DontDestroyOnLoad(gameObject);
+	}
+
+	void Update()	 
+	{
+		time += Time.deltaTime;
+
+		if(Input.GetKey(KeyCode.V)) PreviousLevel();
+		else if(Input.GetKey(KeyCode.B)) NextLevel();
+		else if(Input.GetKey(KeyCode.R)) Application.LoadLevel("Scene" + level);
+
+		GetComponent<AudioSource>().volume = time / 20.0f + 0.1f; 
+		GetComponent<AudioSource>().pitch = time / 20.0f + 1.0f; 
 	}
 
 	void OnGUI()
 	{
-		GUI.Label(new Rect(Screen.width / 2, 40, 30, 30), new GUIContent(scoreWhite + " - " + scoreBlack), style); 
+		GUI.Label(new Rect(Screen.width / 2 - 50, 40, 30, 30), new GUIContent(scoreWhite.ToString()), styleWhite); 
+		GUI.Label(new Rect(Screen.width / 2 + 50, 40, 30, 30), new GUIContent(scoreBlack.ToString()), styleBlack); 
+	}
+
+	public static void NextLevel()
+	{
+		if(level < maxLevel) ++level;
+		Application.LoadLevel("Scene" + level);
+	}
+	
+	public static void PreviousLevel()
+	{
+		if(level > 1) --level;
+		Application.LoadLevel("Scene" + level);
 	}
 }

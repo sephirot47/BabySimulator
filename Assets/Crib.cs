@@ -21,6 +21,8 @@ public class Crib : MonoBehaviour
 		{
 			if(white) ++Core.scoreWhite;
 			else ++Core.scoreBlack;
+
+			Core.NextLevel();
 		}
 	}
 }
