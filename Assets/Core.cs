@@ -22,7 +22,7 @@ public class Core : MonoBehaviour
 		else if(Input.GetKey(KeyCode.R)) Application.LoadLevel("Scene" + level);
 
 		GetComponent<AudioSource>().volume = time / 20.0f + 0.1f; 
-		GetComponent<AudioSource>().pitch = time / 20.0f + 1.0f; 
+		GetComponent<AudioSource>().pitch = time / 20.0f + 0.5f; 
 	}
 
 	void OnGUI()
