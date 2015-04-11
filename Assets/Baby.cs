@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Baby : MonoBehaviour 
 {
 	private static int numArticulations = 4;
-	private float rotSpeed = 1.0f, jumpForce = 10.0f;
+	private float rotSpeed = 10.0f, forwardSpeed = 0.1f, sideSpeed = 0.1f, jumpForce = 12.0f;
 
 	private Quaternion originalHipLRotation, originalHipRRotation; 
 	private Transform initialTransform;
@@ -48,39 +48,33 @@ public class Baby : MonoBehaviour
 
 	bool Jumping()
 	{
-		return Mathf.Abs(GetComponent<Rigidbody>().velocity.y) > 4.0f;
+		return Mathf.Abs(GetComponent<Rigidbody>().velocity.y) > 1.0f;
 	}
 
 	void Update() 
 	{
 		if(Jumping())
 		{
-			Vector3 axis = Vector3.Cross(Vector3.up, transform.forward);
+			if( Input.GetKey(forwardKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(0,0,1) * forwardSpeed, ForceMode.VelocityChange);
+			if( Input.GetKey(backwardKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(0,0,-1) * forwardSpeed, ForceMode.VelocityChange);
 
-			if( Input.GetKey(forwardKey) ) GetComponent<Rigidbody>().AddForce(transform.forward, ForceMode.VelocityChange);
-			if( Input.GetKey(backwardKey) ) GetComponent<Rigidbody>().AddForce(-transform.forward, ForceMode.VelocityChange);
-
-			if( Input.GetKey(leftKey) ) GetComponent<Rigidbody>().AddForce(-axis, ForceMode.VelocityChange);
-			if( Input.GetKey(rightKey) ) GetComponent<Rigidbody>().AddForce(axis, ForceMode.VelocityChange);
+			if( Input.GetKey(leftKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(-1,0,0) * sideSpeed, ForceMode.VelocityChange);
+			if( Input.GetKey(rightKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(1,0,0) * sideSpeed, ForceMode.VelocityChange);
 		}
 
 		float speed = rotSpeed;
-		if(!Jumping() && Input.GetKey(forwardKey) || Input.GetKey(backwardKey))
+		if(!Jumping() && (Input.GetKey(forwardKey) || Input.GetKey(backwardKey)))
 		{
 			if( Input.GetKey(backwardKey) ) speed *= -1;
 
-			Vector3 axis = new Vector3(0, 1, 0);
-
 			Transform t = articulations[Articulations.HipL];
-			t.rotation *= Quaternion.AngleAxis(speed, axis);
+			t.rotation *= Quaternion.AngleAxis(speed, new Vector3(0,1,0));
 
 			t = articulations[Articulations.HipR];
-			t.rotation *= Quaternion.AngleAxis(-speed, axis);
+			t.rotation *= Quaternion.AngleAxis(-speed, new Vector3(0,1,0));
 
-			GetComponent<Rigidbody>().AddForce( Mathf.Abs(speed) * transform.forward, ForceMode.VelocityChange);
-
-			if(Input.GetKey(forwardKey)) GetComponent<Rigidbody>().AddTorque(transform.forward * 0.4f, ForceMode.VelocityChange);
-			else if(Input.GetKey(backwardKey)) GetComponent<Rigidbody>().AddTorque(-transform.forward * 0.4f, ForceMode.VelocityChange);
+			if(Input.GetKey(forwardKey)) GetComponent<Rigidbody>().AddTorque(new Vector3(1,0,0) * sideSpeed, ForceMode.Impulse);
+			else if(Input.GetKey(backwardKey)) GetComponent<Rigidbody>().AddTorque(new Vector3(-1,0,0) * sideSpeed, ForceMode.Impulse);
 		}
 		
 		if( Input.GetKeyDown(jumpKey) && !Jumping())
@@ -88,17 +82,8 @@ public class Baby : MonoBehaviour
 			GetComponent<Rigidbody>().AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
 		}
 
-		if( Input.GetKey(leftKey) ) GetComponent<Rigidbody>().AddTorque(transform.forward, ForceMode.VelocityChange);
-		if( Input.GetKey(rightKey) ) GetComponent<Rigidbody>().AddTorque(-transform.forward, ForceMode.VelocityChange);
-
-		if( Input.GetKeyDown(resetKey) )
-		{
-			articulations[Articulations.HipL].rotation = originalHipLRotation;
-			articulations[Articulations.HipR].rotation = originalHipRRotation;
-
-			transform.position = new Vector3(transform.position.x, transform.position.y + 5.0f, transform.position.z);
-			transform.rotation = Quaternion.identity;
-		}
+		if( Input.GetKey(leftKey) ) GetComponent<Rigidbody>().AddTorque(new Vector3(0,0,1), ForceMode.Impulse);
+		if( Input.GetKey(rightKey) ) GetComponent<Rigidbody>().AddTorque(new Vector3(0,0,-1), ForceMode.Impulse);
 
 		if( Input.GetKeyDown(KeyCode.T) )
 		{

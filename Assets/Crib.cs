@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Crib : MonoBehaviour {
+public class Crib : MonoBehaviour 
+{
+	public bool white;
 
 	// Use this for initialization
 	void Start () {
@@ -15,9 +17,10 @@ public class Crib : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col)
 	{
-		if(col.GetComponent<Collider>().gameObject.name.Contains("Baby"))
+		if(col.GetComponentInParent<Transform>().gameObject.name.Contains("Baby"))
 		{
-			Debug.Log("FINISHED!");
+			if(white) ++Core.scoreWhite;
+			else ++Core.scoreBlack;
 		}
 	}
 }

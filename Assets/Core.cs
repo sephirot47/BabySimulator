@@ -1,15 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Core : MonoBehaviour {
+public class Core : MonoBehaviour 
+{
+	public static int scoreWhite, scoreBlack;
+	public GUIStyle style;
 
-	// Use this for initialization
-	void Start () {
-	
+	void Start () 
+	{
+		scoreWhite = 0;
+		scoreBlack = 0;
+		DontDestroyOnLoad(gameObject);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	void OnGUI()
+	{
+		GUI.Label(new Rect(Screen.width / 2, 40, 30, 30), new GUIContent(scoreWhite + " - " + scoreBlack), style); 
 	}
 }
