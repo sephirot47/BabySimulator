@@ -7,12 +7,14 @@ public class Baby : MonoBehaviour
 	int jumps = 0;
 
 	private static int numArticulations = 4;
-	private float rotSpeed = 10.0f, forwardSpeed = 0.1f, sideSpeed = 0.1f, jumpForce = 12.0f;
+	private float rotSpeed = 10.0f, forwardSpeed = 0.1f, sideSpeed = 0.1f, jumpForce = 8.0f;
 
-	public float bloodiness = 0.5f;
+	public float bloodiness = 0.2f;
 
 	private Quaternion originalHipLRotation, originalHipRRotation; 
 	private Transform initialTransform;
+
+	private Vector3 lastVelocity;
 	
 	public KeyCode forwardKey, backwardKey, leftKey, rightKey, jumpKey, resetKey; 
 
@@ -50,63 +52,54 @@ public class Baby : MonoBehaviour
 		                                      articulations[Articulations.HipR].rotation.z, articulations[Articulations.HipR].rotation.w);
 	}
 
-	bool Jumping()
+	void FixedUpdate() 
 	{
-		return Mathf.Abs(GetComponent<Rigidbody>().velocity.y) > 1.0f;
-	}
+		lastVelocity = GetComponent<Rigidbody> ().velocity;
 
-	void Update() 
-	{
-		if(Jumping())
-		{
-			if( Input.GetKey(forwardKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(0,0,1) * forwardSpeed, ForceMode.VelocityChange);
-			if( Input.GetKey(backwardKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(0,0,-1) * forwardSpeed, ForceMode.VelocityChange);
+		if( Input.GetKey(forwardKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(0,0,1) * forwardSpeed, ForceMode.VelocityChange);
+		if( Input.GetKey(backwardKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(0,0,-1) * forwardSpeed, ForceMode.VelocityChange);
 
-			if( Input.GetKey(leftKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(-1,0,0) * sideSpeed, ForceMode.VelocityChange);
-			if( Input.GetKey(rightKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(1,0,0) * sideSpeed, ForceMode.VelocityChange);
-		}
-
-		float speed = rotSpeed;
-		if(!Jumping() && (Input.GetKey(forwardKey) || Input.GetKey(backwardKey)))
-		{
-			if( Input.GetKey(backwardKey) ) speed *= -1;
-
-			Transform t = articulations[Articulations.HipL];
-			t.rotation *= Quaternion.AngleAxis(speed, new Vector3(0,1,0));
-
-			t = articulations[Articulations.HipR];
-			t.rotation *= Quaternion.AngleAxis(-speed, new Vector3(0,1,0));
-
-			if(Input.GetKey(forwardKey)) GetComponent<Rigidbody>().AddTorque(new Vector3(1,0,0) * sideSpeed, ForceMode.Impulse);
-			else if(Input.GetKey(backwardKey)) GetComponent<Rigidbody>().AddTorque(new Vector3(-1,0,0) * sideSpeed, ForceMode.Impulse);
-
-			if( Input.GetKey(forwardKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(0,0,1) * forwardSpeed, ForceMode.VelocityChange);
-			if( Input.GetKey(backwardKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(0,0,-1) * forwardSpeed, ForceMode.VelocityChange);
-		}
+		if( Input.GetKey(leftKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(-1,0,0) * sideSpeed, ForceMode.VelocityChange);
+		if( Input.GetKey(rightKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(1,0,0) * sideSpeed, ForceMode.VelocityChange);
 		
+		if(Input.GetKey(leftKey)) GetComponent<Rigidbody>().AddTorque(new Vector3(0,0,1) * sideSpeed, ForceMode.Impulse);
+		else if(Input.GetKey(rightKey)) GetComponent<Rigidbody>().AddTorque(new Vector3(0,0,1) * -sideSpeed, ForceMode.Impulse);
+		
+		Transform t = articulations[Articulations.HipL];
+		if(Input.GetKey(forwardKey))t.rotation *= Quaternion.AngleAxis(rotSpeed, new Vector3(0,1,0));
+		
+		t = articulations[Articulations.HipR];
+		if(Input.GetKey(backwardKey)) t.rotation *= Quaternion.AngleAxis(-rotSpeed, new Vector3(0,1,0));
+		 
 		if( Input.GetKeyDown(jumpKey) && jumps <= 1)
 		{
 			++jumps;
 			GetComponent<Rigidbody>().AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
 		}
-
-		if( Input.GetKey(leftKey) ) GetComponent<Rigidbody>().AddTorque(new Vector3(0,0,1), ForceMode.Impulse);
-		if( Input.GetKey(rightKey) ) GetComponent<Rigidbody>().AddTorque(new Vector3(0,0,-1), ForceMode.Impulse);
 	}
 
 	void OnCollisionEnter(Collision col)
 	{
-		if(col.collider.GetComponent<Transform>().gameObject.name.Contains("Floor"))
+		if(col.collider.GetComponent<Transform>().gameObject.name.Contains("Floor") || col.gameObject.name.Contains("Floor") ||
+		   col.collider.GetComponent<Transform>().gameObject.name.Contains("Wall") || col.gameObject.name.Contains("Wall"))
 		{
-			Vector3 hitPoint = col.contacts[0].point;
+			Vector3 hitPoint = col.contacts[0].point, 
+					hitNormal = col.contacts[0].normal;
+			float dotProduct = Vector3.Dot(lastVelocity, -hitNormal);
 
-			if(Mathf.Abs(GetComponent<Rigidbody>().velocity.x) >= 1.0f/bloodiness || Mathf.Abs(GetComponent<Rigidbody>().velocity.y) >= 1.0f/bloodiness)
+			Debug.Log (lastVelocity + ",   " + (-hitNormal) + ",   " + dotProduct);
+
+			if(dotProduct >= 1.0f/bloodiness)
 			{
-				GameObject go = (GameObject)Instantiate(Resources.Load("BloodQuad"), hitPoint + col.contacts[0].normal * 0.001f , Quaternion.LookRotation(-col.contacts[0].normal));
-				float a = Mathf.Max(1.0f, bloodiness * GetComponent<Rigidbody>().velocity.magnitude) * 0.5f;
+				GameObject go = (GameObject)Instantiate(Resources.Load("BloodQuad"), hitPoint + hitNormal * 0.001f , Quaternion.LookRotation(-hitNormal));
+				float a = Mathf.Max(0.5f, bloodiness * lastVelocity.magnitude) * 0.2f;
 				go.transform.localScale = new Vector3(a,a,a);
 			}
 
+		}
+
+		if(col.collider.GetComponent<Transform>().gameObject.name.Contains("Floor") || col.gameObject.name.Contains("Floor"))
+		{
 			jumps = 0;
 		}
 	}
