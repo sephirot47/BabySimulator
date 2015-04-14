@@ -1,0 +1,412 @@
+Initialize engine version: 5.0.1f1 (5a2e8fe35a68)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 550 Ti (ID=0x1244)
+    Vendor:   NVIDIA
+    VRAM:     977 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\sephirot47\Desktop\BabySimulator\BabySimulator_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\sephirot47\Desktop\BabySimulator\BabySimulator_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\sephirot47\Desktop\BabySimulator\BabySimulator_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\sephirot47\Desktop\BabySimulator\BabySimulator_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\sephirot47\Desktop\BabySimulator\BabySimulator_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\sephirot47\Desktop\BabySimulator\BabySimulator_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+- Completed reload, in  0.051 seconds
+desktop: 1680x1050 59Hz; virtual: 1680x1050 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+Platform assembly: C:\Users\sephirot47\Desktop\BabySimulator\BabySimulator_Data\Managed\System.Core.dll (this message is harmless)
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.297686 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 1979.
+Total: 0.375226 ms (FindLiveObjects: 0.121040 ms CreateObjectMapping: 0.031215 ms MarkObjects: 0.216599 ms  DeleteObjects: 0.005733 ms)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.004321 ms
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 1977.
+Total: 0.324899 ms (FindLiveObjects: 0.076765 ms CreateObjectMapping: 0.031215 ms MarkObjects: 0.195576 ms  DeleteObjects: 0.021022 ms)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.008462 ms
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 1977.
+Total: 0.324899 ms (FindLiveObjects: 0.073898 ms CreateObjectMapping: 0.030897 ms MarkObjects: 0.199717 ms  DeleteObjects: 0.019748 ms)
+
+Setting up 3 worker threads for Enlighten.
+  Thread -> id: 103c -> priority: 1 
+  Thread -> id: 93c -> priority: 1 
+  Thread -> id: 1028 -> priority: 1 
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.384326 ms
+
+Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 2009.
+Total: 0.431606 ms (FindLiveObjects: 0.142063 ms CreateObjectMapping: 0.031215 ms MarkObjects: 0.232207 ms  DeleteObjects: 0.025482 ms)
+
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 15ac -> priority: 1 
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.765605 ms
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 1995.
+Total: 0.404213 ms (FindLiveObjects: 0.123589 ms CreateObjectMapping: 0.031534 ms MarkObjects: 0.229977 ms  DeleteObjects: 0.018474 ms)
+
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 16ec -> priority: 1 
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.610481 ms
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1994.
+Total: 0.365352 ms (FindLiveObjects: 0.101292 ms CreateObjectMapping: 0.031215 ms MarkObjects: 0.220103 ms  DeleteObjects: 0.012104 ms)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.496448 ms
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1994.
+Total: 0.343374 ms (FindLiveObjects: 0.081224 ms CreateObjectMapping: 0.030897 ms MarkObjects: 0.217873 ms  DeleteObjects: 0.012104 ms)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.253729 ms
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1994.
+Total: 0.335729 ms (FindLiveObjects: 0.076128 ms CreateObjectMapping: 0.031215 ms MarkObjects: 0.216918 ms  DeleteObjects: 0.011148 ms)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.220284 ms
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1994.
+Total: 0.354204 ms (FindLiveObjects: 0.093328 ms CreateObjectMapping: 0.031215 ms MarkObjects: 0.217236 ms  DeleteObjects: 0.011785 ms)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.570984 ms
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1994.
+Total: 0.353248 ms (FindLiveObjects: 0.093647 ms CreateObjectMapping: 0.031215 ms MarkObjects: 0.216281 ms  DeleteObjects: 0.011467 ms)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.194801 ms
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1994.
+Total: 0.362485 ms (FindLiveObjects: 0.096195 ms CreateObjectMapping: 0.031215 ms MarkObjects: 0.222333 ms  DeleteObjects: 0.011785 ms)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.192572 ms
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1994.
+Total: 0.373315 ms (FindLiveObjects: 0.101610 ms CreateObjectMapping: 0.030897 ms MarkObjects: 0.228703 ms  DeleteObjects: 0.011467 ms)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.531168 ms
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1994.
+Total: 0.372997 ms (FindLiveObjects: 0.096195 ms CreateObjectMapping: 0.031534 ms MarkObjects: 0.232844 ms  DeleteObjects: 0.011785 ms)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.675461 ms
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1994.
+Total: 0.369174 ms (FindLiveObjects: 0.096514 ms CreateObjectMapping: 0.030897 ms MarkObjects: 0.229340 ms  DeleteObjects: 0.011785 ms)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.682469 ms
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1994.
+Total: 0.372360 ms (FindLiveObjects: 0.099381 ms CreateObjectMapping: 0.031215 ms MarkObjects: 0.229659 ms  DeleteObjects: 0.011467 ms)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.408853 ms
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1994.
+Total: 0.371723 ms (FindLiveObjects: 0.098106 ms CreateObjectMapping: 0.031215 ms MarkObjects: 0.230614 ms  DeleteObjects: 0.011467 ms)
+
