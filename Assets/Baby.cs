@@ -111,8 +111,10 @@ public class Baby : MonoBehaviour
 		}
 	}
 
-	void Explode()
+	public void Explode()
 	{
+		NetworkManager.SendPositions ();
+
 		ParticleSystem ps = null;
 		foreach(Transform t in transform)
 		{
