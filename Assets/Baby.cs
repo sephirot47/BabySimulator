@@ -19,6 +19,8 @@ public class Baby : MonoBehaviour
 	public float explosionRadius = 10.0f, explosionForce = 10.0f;
 	public KeyCode forwardKey, backwardKey, leftKey, rightKey, jumpKey, resetKey, explosionKey; 
 
+	private ParticleSystem ps;
+
 	private class Articulations
 	{
 		public static int HipR = 0, KneeR = 1,
@@ -52,6 +54,18 @@ public class Baby : MonoBehaviour
 		originalHipRRotation = new Quaternion(articulations[Articulations.HipR].rotation.x, articulations[Articulations.HipR].rotation.y,
 		                                      articulations[Articulations.HipR].rotation.z, articulations[Articulations.HipR].rotation.w);*/
 		articulations [Articulations.HipL].rotation *= Quaternion.AngleAxis (180.0f, new Vector3 (0, 1, 0));
+
+		//Particle system
+		foreach(Transform t in transform)
+		{
+			if(t.gameObject.name == "Explosion")
+			{
+				ps = t.gameObject.GetComponent<ParticleSystem>();
+				break;
+			}
+		}
+		//
+
 		Core.babies.Add(this);
 	}
 
