@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Core : MonoBehaviour 
 {
+	public static List<Baby> babies;
+
 	public static int scoreWhite = 0, scoreBlack = 0;
 	public static int level = 1, maxLevel = 4;
 	public GUIStyle styleWhite, styleBlack;
@@ -11,6 +14,7 @@ public class Core : MonoBehaviour
 
 	void Start ()
 	{
+		babies = new List<Baby>();
 	}
 
 	void Update()	 

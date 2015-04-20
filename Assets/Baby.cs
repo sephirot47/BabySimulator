@@ -7,7 +7,7 @@ public class Baby : MonoBehaviour
 	int jumps = 0;
 
 	private static int numArticulations = 4;
-	private float rotSpeed = 10.0f, forwardSpeed = 0.1f, sideSpeed = 0.1f, jumpForce = 8.0f;
+	private float rotSpeed = 10.0f, forwardSpeed = 0.1f, sideSpeed = 0.1f, jumpForce = 4.0f;
 
 	public float bloodiness = 0.2f;
 
@@ -15,8 +15,9 @@ public class Baby : MonoBehaviour
 	private Transform initialTransform;
 
 	private Vector3 lastVelocity;
-	
-	public KeyCode forwardKey, backwardKey, leftKey, rightKey, jumpKey, resetKey; 
+
+	public float explosionRadius = 10.0f, explosionForce = 10.0f;
+	public KeyCode forwardKey, backwardKey, leftKey, rightKey, jumpKey, resetKey, explosionKey; 
 
 	private class Articulations
 	{
@@ -45,11 +46,13 @@ public class Baby : MonoBehaviour
 			if(go.name == "ORG-shin_L")  articulations[Articulations.KneeL] = t;
 		}
 
-		originalHipLRotation = new Quaternion(articulations[Articulations.HipL].rotation.x, articulations[Articulations.HipL].rotation.y,
+		/*originalHipLRotation = new Quaternion(articulations[Articulations.HipL].rotation.x, articulations[Articulations.HipL].rotation.y,
 		                                      articulations[Articulations.HipL].rotation.z, articulations[Articulations.HipL].rotation.w);
 
 		originalHipRRotation = new Quaternion(articulations[Articulations.HipR].rotation.x, articulations[Articulations.HipR].rotation.y,
-		                                      articulations[Articulations.HipR].rotation.z, articulations[Articulations.HipR].rotation.w);
+		                                      articulations[Articulations.HipR].rotation.z, articulations[Articulations.HipR].rotation.w);*/
+		articulations [Articulations.HipL].rotation *= Quaternion.AngleAxis (180.0f, new Vector3 (0, 1, 0));
+		Core.babies.Add(this);
 	}
 
 	void FixedUpdate() 
@@ -66,15 +69,58 @@ public class Baby : MonoBehaviour
 		else if(Input.GetKey(rightKey)) GetComponent<Rigidbody>().AddTorque(new Vector3(0,0,1) * -sideSpeed, ForceMode.Impulse);
 		
 		Transform t = articulations[Articulations.HipL];
-		if(Input.GetKey(forwardKey))t.rotation *= Quaternion.AngleAxis(rotSpeed, new Vector3(0,1,0));
+		if(Input.GetKey(forwardKey)) t.rotation *= Quaternion.AngleAxis(rotSpeed, new Vector3(0,1,0));
 		
 		t = articulations[Articulations.HipR];
 		if(Input.GetKey(backwardKey)) t.rotation *= Quaternion.AngleAxis(-rotSpeed, new Vector3(0,1,0));
-		 
+
+
+		t = articulations[Articulations.HipR];
+		if(Input.GetKey(forwardKey)) t.rotation *= Quaternion.AngleAxis(rotSpeed, new Vector3(0,1,0));
+		
+		t = articulations[Articulations.HipL];
+		if(Input.GetKey(backwardKey)) t.rotation *= Quaternion.AngleAxis(-rotSpeed, new Vector3(0,1,0));
+
+
 		if( Input.GetKeyDown(jumpKey) && jumps <= 1)
 		{
 			++jumps;
 			GetComponent<Rigidbody>().AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
+		}
+	}
+
+	void Update()
+	{
+		if(Input.GetKeyDown(explosionKey))
+		{
+			Explode();
+		}
+	}
+
+	void Explode()
+	{
+		ParticleSystem ps = null;
+		foreach(Transform t in transform)
+		{
+			if(t.gameObject.name == "Explosion")
+			{
+				ps = t.gameObject.GetComponent<ParticleSystem>();
+				break;
+			}
+		}
+		if(ps == null) return;
+
+		ps.Stop();
+		ps.Play();
+		PushBabiesAround();
+	}
+
+	void PushBabiesAround()
+	{
+		foreach(Baby b in Core.babies)
+		{
+			if(b == this) continue;
+			b.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, transform.position, explosionRadius);
 		}
 	}
 
@@ -86,8 +132,6 @@ public class Baby : MonoBehaviour
 			Vector3 hitPoint = col.contacts[0].point, 
 					hitNormal = col.contacts[0].normal;
 			float dotProduct = Vector3.Dot(lastVelocity, -hitNormal);
-
-			Debug.Log (lastVelocity + ",   " + (-hitNormal) + ",   " + dotProduct);
 
 			if(dotProduct >= 1.0f/bloodiness)
 			{
