@@ -107,13 +107,13 @@ public class Baby : MonoBehaviour
 	{
 		if(Input.GetKeyDown(explosionKey))
 		{
-			Explode();
+			NetworkManager.SendPositions();
+			Explode ();
 		}
 	}
 
 	public void Explode()
 	{
-		NetworkManager.SendPositions ();
 
 		ParticleSystem ps = null;
 		foreach(Transform t in transform)
