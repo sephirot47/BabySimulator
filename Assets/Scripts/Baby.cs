@@ -99,6 +99,8 @@ public class Baby : MonoBehaviour
 				GetComponent<Rigidbody>().AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
 			}
 		}
+
+
 	}
 
 	void Update()

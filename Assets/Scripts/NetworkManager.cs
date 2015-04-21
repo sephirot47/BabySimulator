@@ -16,12 +16,10 @@ public class NetworkManager : MonoBehaviour
 	public int maxPeople = 25;
 
 	public static int globalPlayersId = 0;
-	public static List<BabyInfo> playersInfo;
-	private int networkID = -1;
+	private static int networkID = -1;
 
 	void Start () 
 	{
-		playersInfo = new List<BabyInfo>();
 
 		serverList = new List<HostData>();
 		initialized = false;
@@ -79,9 +77,9 @@ public class NetworkManager : MonoBehaviour
 		//SendPositionToOthers();
 	}
 
-	public static void SendPositionToOthers()
+	public static void SendPositionToOthers(GameObject baby)
 	{
-		//nv.RPC("ReceivePositions", RPCMode.Others, Core.babyMe.networkId, Core.babyMe.transform.position, Core.babyMe.transform.rotation);
+		nv.RPC("ReceivePositions", RPCMode.Others, baby.transform.position, baby.transform.rotation, networkID);
 	}
 
 	[RPC]
@@ -94,15 +92,7 @@ public class NetworkManager : MonoBehaviour
 		Core.babies.Add(baby);
 		//
 		
-		if(networkID != -1)
-		{
-			//Lo anadimos a la lista de info de jugadores
-			BabyInfo bi = new BabyInfo();
-			bi.networkId = newPlayerId;
-			playersInfo.Add(bi);
-			//
-		}
-		else
+		if(networkID == -1)
 		{
 			networkID = newPlayerId;
 			Core.babyMe = baby;
@@ -117,36 +107,33 @@ public class NetworkManager : MonoBehaviour
 
 		//Lo instanciamos
 		GameObject baby = Instantiate(Resources.Load ("Baby")) as GameObject;
+		baby.GetComponent<Baby>().networkId = playerId;
 		baby.transform.position = newPlayerPosition;
 		baby.transform.rotation = newPlayerRotation;
 		Core.babies.Add(baby);
 		//
 		
 		//Lo anadimos a la lista de info de jugadores
-		BabyInfo bi = new BabyInfo();
+		/*BabyInfo bi = new BabyInfo();
 		bi.networkId = playersInfo.Count;
-		playersInfo.Add(bi);
+		playersInfo.Add(bi);*/
 		//
 	}
 	
 	[RPC]
-	public void ReceivePositions(int newPlayerId, Vector3 newPlayerPosition, Quaternion newPlayerRotation) 
+	public void ReceivePositions(int playerId, Vector3 newPlayerPosition, Quaternion newPlayerRotation) 
 	{
 		Debug.Log("ReceivePositions()");
 
-		//Afegeixo al baby
-		GameObject go = (GameObject)( Instantiate(Resources.Load("Baby")) );
-		Core.babies.Add(go);
-		
-		playersInfo[ playersInfo.Count - 1 ].networkId = newPlayerId;
-		
-		if (networkID == -1)
-		{
-			//Soc el nou conectat
-			Debug.Log("Im the new connected");
-			networkID = newPlayerId; //Pillo la nueva id
-			Core.babyMe = go;		 //soy yo
+		for (int i = 0; i < Core.babies.Count; ++i) {
+			GameObject baby = Core.babies[i];
+			if (baby.GetComponent<Baby>().networkId == playerId) 
+			{
+				baby.transform.position = newPlayerPosition;
+				baby.transform.rotation = newPlayerRotation;
+			}
 		}
+
 	}
 
 	private void JoinServer(HostData hostData)
@@ -169,10 +156,10 @@ public class NetworkManager : MonoBehaviour
 			++globalPlayersId;
 			nv.RPC("OnNewPlayerConnected", RPCMode.All, globalPlayersId);
 
-			for(int i = 0; i < playersInfo.Count; ++i)
+			for(int i = 0; i < Core.babies.Count; ++i)
 			{
 				GameObject baby = Core.babies[i];
-				nv.RPC("ReceiveCurrentPlayers", player, playersInfo[i].networkId, 
+				nv.RPC("ReceiveCurrentPlayers", player, baby.GetComponent<Baby>().networkId, 
 				       							baby.transform.position, 
 				       							baby.transform.rotation); //Enviamos los anteriores al player que acaba de entrar
 			}
