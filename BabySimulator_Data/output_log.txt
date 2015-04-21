@@ -12,59 +12,9 @@ Platform assembly: C:\Users\sephirot47\babysimulator\BabySimulator_Data\Managed\
 Loading C:\Users\sephirot47\babysimulator\BabySimulator_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
 Platform assembly: C:\Users\sephirot47\babysimulator\BabySimulator_Data\Managed\UnityEngine.UI.dll (this message is harmless)
 Loading C:\Users\sephirot47\babysimulator\BabySimulator_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.038 seconds
+- Completed reload, in  0.046 seconds
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
 Platform assembly: C:\Users\sephirot47\babysimulator\BabySimulator_Data\Managed\System.Core.dll (this message is harmless)
-The referenced script on this Behaviour is missing!
- 
-(Filename:  Line: 1713)
-
-The referenced script on this Behaviour is missing!
- 
-(Filename:  Line: 1713)
-
-Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.867244 ms
-
-Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 1980.
-Total: 0.295219 ms (FindLiveObjects: 0.096897 ms CreateObjectMapping: 0.016602 ms MarkObjects: 0.176286 ms  DeleteObjects: 0.005131 ms)
-
-The referenced script on this Behaviour is missing!
- 
-(Filename:  Line: 1713)
-
-The referenced script on this Behaviour is missing!
- 
-(Filename:  Line: 1713)
-
-Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.701523 ms
-
-Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 1978.
-Total: 0.257788 ms (FindLiveObjects: 0.089350 ms CreateObjectMapping: 0.017507 ms MarkObjects: 0.138252 ms  DeleteObjects: 0.012074 ms)
-
-The referenced script on this Behaviour is missing!
- 
-(Filename:  Line: 1713)
-
-The referenced script on this Behaviour is missing!
- 
-(Filename:  Line: 1713)
-
-Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.673752 ms
-
-Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 1978.
-Total: 0.258392 ms (FindLiveObjects: 0.086935 ms CreateObjectMapping: 0.017809 ms MarkObjects: 0.141572 ms  DeleteObjects: 0.011772 ms)
-
-Setting up 3 worker threads for Enlighten.
-  Thread -> id: c1c -> priority: 1 
-  Thread -> id: e74 -> priority: 1 
-  Thread -> id: c2c -> priority: 1 
-Server Initializied
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
-
