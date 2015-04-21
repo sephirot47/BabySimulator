@@ -98,7 +98,7 @@ public class NetworkManager : MonoBehaviour
 		{
 			//Lo anadimos a la lista de info de jugadores
 			BabyInfo bi = new BabyInfo();
-			bi.networkId = playersInfo.Count;
+			bi.networkId = newPlayerId;
 			playersInfo.Add(bi);
 			//
 		}
@@ -165,6 +165,8 @@ public class NetworkManager : MonoBehaviour
 			Debug.Log("Detected a new player connected (ServerSide)");
 
 			++globalPlayersId;
+			nv.RPC("OnNewPlayerConnected", RPCMode.All, globalPlayersId);
+
 			for(int i = 0; i < playersInfo.Count; ++i)
 			{
 				GameObject baby = Core.babies[i];
@@ -173,7 +175,7 @@ public class NetworkManager : MonoBehaviour
 				       							baby.transform.rotation); //Enviamos los anteriores al player que acaba de entrar
 			}
 
-			nv.RPC("OnNewPlayerConnected", RPCMode.All, globalPlayersId);
+
 		}
 	}
 }
