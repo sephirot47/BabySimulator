@@ -117,6 +117,8 @@ public class NetworkManager : MonoBehaviour
 
 		//Lo instanciamos
 		GameObject baby = Instantiate(Resources.Load ("Baby")) as GameObject;
+		baby.transform.position = newPlayerPosition;
+		baby.transform.rotation = newPlayerRotation;
 		Core.babies.Add(baby);
 		//
 		
