@@ -105,20 +105,12 @@ public class NetworkManager : MonoBehaviour
 	{
 		Debug.Log("ReceiveCurrentPlayers()");
 
-		if(playerId == networkID || playerId == -1) return;
-
 		//Lo instanciamos
 		GameObject baby = Instantiate(Resources.Load ("Baby")) as GameObject;
 		baby.GetComponent<Baby>().networkId = playerId;
 		baby.transform.position = newPlayerPosition;
 		baby.transform.rotation = newPlayerRotation;
 		Core.babies.Add(baby);
-		//
-		
-		//Lo anadimos a la lista de info de jugadores
-		/*BabyInfo bi = new BabyInfo();
-		bi.networkId = playersInfo.Count;
-		playersInfo.Add(bi);*/
 		//
 	}
 	
@@ -154,15 +146,18 @@ public class NetworkManager : MonoBehaviour
 	{
 		if (Network.isServer)
 		{
+			int babiesBeforeAdding = Core.babies.Count;
+
 			Debug.Log("Detected a new player connected (ServerSide)");
 
 			++globalPlayersId;
 			nv.RPC("OnNewPlayerConnected", RPCMode.All, globalPlayersId);
 
-			for(int i = 0; i < Core.babies.Count; ++i)
+			for(int i = 0; i < babiesBeforeAdding; ++i)
 			{
 				GameObject baby = Core.babies[i];
-				nv.RPC("ReceiveCurrentPlayers", player, baby.GetComponent<Baby>().networkId, 
+				nv.RPC("ReceiveCurrentPlayers", player, 
+				       							baby.GetComponent<Baby>().networkId, 
 				       							baby.transform.position, 
 				       							baby.transform.rotation); //Enviamos los anteriores al player que acaba de entrar
 			}
