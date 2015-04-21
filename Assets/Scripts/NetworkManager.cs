@@ -79,7 +79,7 @@ public class NetworkManager : MonoBehaviour
 
 	public static void SendPositionToOthers(GameObject baby)
 	{
-		nv.RPC("ReceivePositions", RPCMode.Others, baby.transform.position, baby.transform.rotation, networkID);
+		nv.RPC("ReceivePositions", RPCMode.Others, networkID, baby.transform.position, baby.transform.rotation);
 	}
 
 	[RPC]
@@ -105,6 +105,8 @@ public class NetworkManager : MonoBehaviour
 	{
 		Debug.Log("ReceiveCurrentPlayers()");
 
+		if(playerId == networkID || playerId == -1) return;
+
 		//Lo instanciamos
 		GameObject baby = Instantiate(Resources.Load ("Baby")) as GameObject;
 		baby.GetComponent<Baby>().networkId = playerId;
@@ -125,7 +127,8 @@ public class NetworkManager : MonoBehaviour
 	{
 		Debug.Log("ReceivePositions()");
 
-		for (int i = 0; i < Core.babies.Count; ++i) {
+		for (int i = 0; i < Core.babies.Count; ++i) 
+		{
 			GameObject baby = Core.babies[i];
 			if (baby.GetComponent<Baby>().networkId == playerId) 
 			{

@@ -98,10 +98,9 @@ public class Baby : MonoBehaviour
 				++jumps;
 				GetComponent<Rigidbody>().AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
 			}
+
 			NetworkManager.SendPositionToOthers(gameObject);
 		}
-
-
 	}
 
 	void Update()
