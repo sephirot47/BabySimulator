@@ -86,7 +86,7 @@ public class NetworkManager : MonoBehaviour
 	[RPC]
 	public void OnNewPlayerConnected(int newPlayerId) 
 	{
-		Debug.Log("OnNewPlayerConnected: " + newPlayerId);
+		//Debug.Log("OnNewPlayerConnected: " + newPlayerId);
 		
 		//Lo instanciamos
 		GameObject baby = Instantiate(Resources.Load ("Baby")) as GameObject;
@@ -103,22 +103,15 @@ public class NetworkManager : MonoBehaviour
 	}
 	
 	[RPC]
-	public void ReceiveCurrentPlayers(int playerId, Vector3 newPlayerPosition, Quaternion newPlayerRotation, Quaternion leftLegRotation, Quaternion rightLegRotation) 
+	public void ReceiveCurrentPlayers(int playerId) 
 	{
-		Debug.Log("ReceiveCurrentPlayers: " + playerId);
+		//Debug.Log("ReceiveCurrentPlayers: " + playerId);
 
 		//Lo instanciamos
 		GameObject baby = Instantiate(Resources.Load ("Baby")) as GameObject;
 		baby.GetComponent<Baby>().networkId = playerId;
-		baby.transform.position = newPlayerPosition;
-		baby.transform.rotation = newPlayerRotation;
-		
-		Baby b = baby.GetComponent<Baby>();
-		b.SetLeftLegRotation(leftLegRotation);
-		b.SetRightLegRotation(rightLegRotation);
-		Core.babies.Add(baby);
 
-		Debug.Log(Core.babies);
+		Core.babies.Add(baby);
 		//
 	}
 	
@@ -128,7 +121,7 @@ public class NetworkManager : MonoBehaviour
 		for (int i = 0; i < Core.babies.Count; ++i) 
 		{
 			GameObject baby = Core.babies[i];
-			Debug.Log ("ID(" +i + "): " + baby.GetComponent<Baby>().networkId);
+			//Debug.Log ("ID(" +i + "): " + baby.GetComponent<Baby>().networkId);
 			if (baby.GetComponent<Baby>().networkId == playerId) 
 			{
 				baby.transform.position = newPlayerPosition;
@@ -145,12 +138,12 @@ public class NetworkManager : MonoBehaviour
 	private void JoinServer(HostData hostData)
 	{
 		Network.Connect(hostData);
-		Debug.Log ("JoinServer()");
+		//Debug.Log ("JoinServer()");
 	}
 	
 	void OnConnectedToServer()
 	{
-		Debug.Log("Joined to server");
+		//Debug.Log("Joined to server");
 	}
 
 	void OnPlayerConnected(NetworkPlayer player)
@@ -159,7 +152,7 @@ public class NetworkManager : MonoBehaviour
 		{
 			int babiesBeforeAdding = Core.babies.Count;
 
-			Debug.Log("Detected a new player connected (ServerSide)");
+			//Debug.Log("Detected a new player connected (ServerSide)");
 
 			++globalPlayersId;
 			nv.RPC("OnNewPlayerConnected", RPCMode.All, globalPlayersId);
@@ -167,12 +160,7 @@ public class NetworkManager : MonoBehaviour
 			for(int i = 0; i < babiesBeforeAdding; ++i)
 			{
 				GameObject baby = Core.babies[i];
-				nv.RPC("ReceiveCurrentPlayers", player, 
-				       							baby.GetComponent<Baby>().networkId, 
-				       							baby.transform.position, 
-				       							baby.transform.rotation,
-				       							baby.GetComponent<Baby>().GetLeftLegRotation(),
-				       							baby.GetComponent<Baby>().GetRightLegRotation()); //Enviamos los anteriores al player que acaba de entrar
+				nv.RPC("ReceiveCurrentPlayers", player, baby.GetComponent<Baby>().networkId); //Enviamos los anteriores al player que acaba de entrar
 			}
 
 

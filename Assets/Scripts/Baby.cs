@@ -8,7 +8,7 @@ public class Baby : MonoBehaviour
 	public int networkId = -1;
 
 	private static int numArticulations = 4;
-	private float rotSpeed = 10.0f, forwardSpeed = 0.1f, sideSpeed = 0.1f, jumpForce = 4.0f;
+	private float rotSpeed = 500.0f, forwardSpeed = 0.1f, sideSpeed = 0.1f, jumpForce = 4.0f;
 
 	public float bloodiness = 0.2f;
 
@@ -64,40 +64,6 @@ public class Baby : MonoBehaviour
 
 	void FixedUpdate() 
 	{
-		if(gameObject == Core.babyMe)
-		{
-			lastVelocity = GetComponent<Rigidbody> ().velocity;
-
-			if( Input.GetKey(forwardKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(0,0,1) * forwardSpeed, ForceMode.VelocityChange);
-			if( Input.GetKey(backwardKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(0,0,-1) * forwardSpeed, ForceMode.VelocityChange);
-
-			if( Input.GetKey(leftKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(-1,0,0) * sideSpeed, ForceMode.VelocityChange);
-			if( Input.GetKey(rightKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(1,0,0) * sideSpeed, ForceMode.VelocityChange);
-			
-			if(Input.GetKey(leftKey)) GetComponent<Rigidbody>().AddTorque(new Vector3(0,0,1) * sideSpeed, ForceMode.Impulse);
-			else if(Input.GetKey(rightKey)) GetComponent<Rigidbody>().AddTorque(new Vector3(0,0,1) * -sideSpeed, ForceMode.Impulse);
-			
-			Transform t = articulations[Articulations.HipL];
-			if(Input.GetKey(forwardKey)) t.rotation *= Quaternion.AngleAxis(rotSpeed, new Vector3(0,1,0));
-			
-			t = articulations[Articulations.HipR];
-			if(Input.GetKey(backwardKey)) t.rotation *= Quaternion.AngleAxis(-rotSpeed, new Vector3(0,1,0));
-
-			t = articulations[Articulations.HipR];
-			if(Input.GetKey(forwardKey)) t.rotation *= Quaternion.AngleAxis(rotSpeed, new Vector3(0,1,0));
-			
-			t = articulations[Articulations.HipL];
-			if(Input.GetKey(backwardKey)) t.rotation *= Quaternion.AngleAxis(-rotSpeed, new Vector3(0,1,0));
-
-
-			if( Input.GetKeyDown(jumpKey) && jumps <= 1)
-			{
-				++jumps;
-				GetComponent<Rigidbody>().AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
-			}
-
-			NetworkManager.SendPositionToOthers(gameObject);
-		}
 	}
 
 	void Update()
@@ -108,6 +74,38 @@ public class Baby : MonoBehaviour
 			{
 				Explode ();
 			}
+
+			lastVelocity = GetComponent<Rigidbody> ().velocity;
+			
+			if( Input.GetKey(forwardKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(0,0,1) * forwardSpeed, ForceMode.VelocityChange);
+			if( Input.GetKey(backwardKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(0,0,-1) * forwardSpeed, ForceMode.VelocityChange);
+			
+			if( Input.GetKey(leftKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(-1,0,0) * sideSpeed, ForceMode.VelocityChange);
+			if( Input.GetKey(rightKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(1,0,0) * sideSpeed, ForceMode.VelocityChange);
+			
+			if(Input.GetKey(leftKey)) GetComponent<Rigidbody>().AddTorque(new Vector3(0,0,1) * sideSpeed, ForceMode.Impulse);
+			else if(Input.GetKey(rightKey)) GetComponent<Rigidbody>().AddTorque(new Vector3(0,0,1) * -sideSpeed, ForceMode.Impulse);
+			
+			Transform t = articulations[Articulations.HipL];
+			if(Input.GetKey(forwardKey)) t.rotation *= Quaternion.AngleAxis(rotSpeed * Time.deltaTime, new Vector3(0,1,0));
+			
+			t = articulations[Articulations.HipR];
+			if(Input.GetKey(backwardKey)) t.rotation *= Quaternion.AngleAxis(-rotSpeed * Time.deltaTime, new Vector3(0,1,0));
+			
+			t = articulations[Articulations.HipR];
+			if(Input.GetKey(forwardKey)) t.rotation *= Quaternion.AngleAxis(rotSpeed * Time.deltaTime, new Vector3(0,1,0));
+			
+			t = articulations[Articulations.HipL];
+			if(Input.GetKey(backwardKey)) t.rotation *= Quaternion.AngleAxis(-rotSpeed * Time.deltaTime, new Vector3(0,1,0));
+			
+			
+			if( Input.GetKeyDown(jumpKey) && jumps <= 1)
+			{
+				++jumps;
+				GetComponent<Rigidbody>().AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
+			}
+			
+			NetworkManager.SendPositionToOthers(gameObject);
 		}
 	}
 
@@ -122,6 +120,7 @@ public class Baby : MonoBehaviour
 				break;
 			}
 		}
+
 		if(ps == null) return;
 
 		ps.Stop();
@@ -133,7 +132,7 @@ public class Baby : MonoBehaviour
 	{
 		foreach(GameObject b in Core.babies)
 		{
-			if(b == this) continue;
+			if(b.GetComponent<Baby>() == this) continue;
 			b.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, transform.position, explosionRadius);
 		}
 	}
