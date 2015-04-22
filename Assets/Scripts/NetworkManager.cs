@@ -73,8 +73,6 @@ public class NetworkManager : MonoBehaviour
 	void Update()
 	{
 		if(!initialized) RefreshServerList();
-
-		//SendPositionToOthers();
 	}
 
 	public static void SendPositionToOthers(GameObject baby)
@@ -133,6 +131,24 @@ public class NetworkManager : MonoBehaviour
 			}
 		}
 
+	}
+
+	public static void SendExplosionToOthers()
+	{
+		nv.RPC("ReceiveExplosion", RPCMode.Others, Core.babyMe.GetComponent<Baby>().networkId);
+	}
+
+	[RPC]
+	private void ReciveExplosion(int playerId)
+	{
+		for (int i = 0; i < Core.babies.Count; ++i) 
+		{
+			GameObject baby = Core.babies[i];
+			if (baby.GetComponent<Baby>().networkId == playerId) 
+			{
+				baby.GetComponent<Baby>().Explode();
+			}
+		}
 	}
 
 	private void JoinServer(HostData hostData)

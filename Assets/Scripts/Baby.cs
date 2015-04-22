@@ -72,7 +72,8 @@ public class Baby : MonoBehaviour
 		{
 			if(Input.GetKeyDown(explosionKey))
 			{
-				Explode ();
+				Explode();
+				NetworkManager.SendExplosionToOthers();
 			}
 
 			lastVelocity = GetComponent<Rigidbody> ().velocity;
