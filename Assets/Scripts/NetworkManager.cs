@@ -139,7 +139,7 @@ public class NetworkManager : MonoBehaviour
 	}
 
 	[RPC]
-	private void ReciveExplosion(int playerId)
+	private void ReceiveExplosion(int playerId)
 	{
 		for (int i = 0; i < Core.babies.Count; ++i) 
 		{
