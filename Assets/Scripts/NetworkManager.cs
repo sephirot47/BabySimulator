@@ -79,7 +79,8 @@ public class NetworkManager : MonoBehaviour
 
 	public static void SendPositionToOthers(GameObject baby)
 	{
-		nv.RPC("ReceivePositions", RPCMode.Others, networkID, baby.transform.position, baby.transform.rotation);
+		Baby b = baby.GetComponent<Baby>();
+		nv.RPC("ReceivePositions", RPCMode.Others, networkID, baby.transform.position, baby.transform.rotation, b.GetLeftLegRotation(), b.GetRightLegRotation());
 	}
 
 	[RPC]
@@ -102,7 +103,7 @@ public class NetworkManager : MonoBehaviour
 	}
 	
 	[RPC]
-	public void ReceiveCurrentPlayers(int playerId, Vector3 newPlayerPosition, Quaternion newPlayerRotation) 
+	public void ReceiveCurrentPlayers(int playerId, Vector3 newPlayerPosition, Quaternion newPlayerRotation, Quaternion leftLegRotation, Quaternion rightLegRotation) 
 	{
 		Debug.Log("ReceiveCurrentPlayers: " + playerId);
 
@@ -111,24 +112,29 @@ public class NetworkManager : MonoBehaviour
 		baby.GetComponent<Baby>().networkId = playerId;
 		baby.transform.position = newPlayerPosition;
 		baby.transform.rotation = newPlayerRotation;
+		
+		Baby b = baby.GetComponent<Baby>();
+		b.SetLeftLegRotation(leftLegRotation);
+		b.SetRightLegRotation(rightLegRotation);
 		Core.babies.Add(baby);
 		//
 	}
 	
 	[RPC]
-	public void ReceivePositions(int playerId, Vector3 newPlayerPosition, Quaternion newPlayerRotation) 
+	public void ReceivePositions(int playerId, Vector3 newPlayerPosition, Quaternion newPlayerRotation, Quaternion leftLegRotation, Quaternion rightLegRotation) 
 	{
-		//Debug.Log("ReceivePositions() from " + playerId + ", pos: " + newPlayerPosition + ", rot: " + newPlayerRotation);
-
 		for (int i = 0; i < Core.babies.Count; ++i) 
 		{
-
 			GameObject baby = Core.babies[i];
 			Debug.Log ("ID(" +i + "): " +baby.GetComponent<Baby>().networkId);
 			if (baby.GetComponent<Baby>().networkId == playerId) 
 			{
 				baby.transform.position = newPlayerPosition;
 				baby.transform.rotation = newPlayerRotation;
+
+				Baby b = baby.GetComponent<Baby>();
+				b.SetLeftLegRotation(leftLegRotation);
+				b.SetRightLegRotation(rightLegRotation);
 			}
 		}
 
@@ -162,7 +168,9 @@ public class NetworkManager : MonoBehaviour
 				nv.RPC("ReceiveCurrentPlayers", player, 
 				       							baby.GetComponent<Baby>().networkId, 
 				       							baby.transform.position, 
-				       							baby.transform.rotation); //Enviamos los anteriores al player que acaba de entrar
+				       							baby.transform.rotation,
+				       							baby.GetComponent<Baby>().GetLeftLegRotation(),
+				       							baby.GetComponent<Baby>().GetRightLegRotation()); //Enviamos los anteriores al player que acaba de entrar
 			}
 
 

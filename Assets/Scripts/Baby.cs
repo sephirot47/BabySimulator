@@ -29,9 +29,6 @@ public class Baby : MonoBehaviour
 	}
 
 	List<Transform> articulations;
-	
-	Transform hipR, kneeR,
-		      hipL, kneeL;
 
 	void Start()
 	{
@@ -163,5 +160,25 @@ public class Baby : MonoBehaviour
 		{
 			jumps = 0;
 		}
+	}
+
+	public Quaternion GetLeftLegRotation()
+	{
+		return articulations[Articulations.HipL].rotation;
+	}
+	
+	public Quaternion GetRightLegRotation()
+	{
+		return articulations[Articulations.HipR].rotation;
+	}
+	
+	public void SetRightLegRotation(Quaternion r)
+	{
+		articulations[Articulations.HipR].rotation = r;
+	}
+
+	public void SetLeftLegRotation(Quaternion r)
+	{
+		articulations[Articulations.HipL].rotation = r;
 	}
 }
