@@ -85,10 +85,11 @@ public class NetworkManager : MonoBehaviour
 	[RPC]
 	public void OnNewPlayerConnected(int newPlayerId) 
 	{
-		Debug.Log("OnNewPlayerConnected()");
+		Debug.Log("OnNewPlayerConnected: " + newPlayerId);
 		
 		//Lo instanciamos
 		GameObject baby = Instantiate(Resources.Load ("Baby")) as GameObject;
+		baby.GetComponent<Baby> ().networkId = newPlayerId;
 		Core.babies.Add(baby);
 		//
 		
@@ -103,7 +104,7 @@ public class NetworkManager : MonoBehaviour
 	[RPC]
 	public void ReceiveCurrentPlayers(int playerId, Vector3 newPlayerPosition, Quaternion newPlayerRotation) 
 	{
-		Debug.Log("ReceiveCurrentPlayers()");
+		Debug.Log("ReceiveCurrentPlayers: " + playerId);
 
 		//Lo instanciamos
 		GameObject baby = Instantiate(Resources.Load ("Baby")) as GameObject;
@@ -117,11 +118,13 @@ public class NetworkManager : MonoBehaviour
 	[RPC]
 	public void ReceivePositions(int playerId, Vector3 newPlayerPosition, Quaternion newPlayerRotation) 
 	{
-		Debug.Log("ReceivePositions()");
+		//Debug.Log("ReceivePositions() from " + playerId + ", pos: " + newPlayerPosition + ", rot: " + newPlayerRotation);
 
 		for (int i = 0; i < Core.babies.Count; ++i) 
 		{
+
 			GameObject baby = Core.babies[i];
+			Debug.Log ("ID(" +i + "): " +baby.GetComponent<Baby>().networkId);
 			if (baby.GetComponent<Baby>().networkId == playerId) 
 			{
 				baby.transform.position = newPlayerPosition;

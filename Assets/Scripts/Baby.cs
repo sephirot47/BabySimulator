@@ -35,7 +35,7 @@ public class Baby : MonoBehaviour
 
 	void Start()
 	{
-		networkId = -1;
+		//networkId = -1;
 
 		initialTransform = transform;
 
