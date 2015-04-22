@@ -117,6 +117,8 @@ public class NetworkManager : MonoBehaviour
 		b.SetLeftLegRotation(leftLegRotation);
 		b.SetRightLegRotation(rightLegRotation);
 		Core.babies.Add(baby);
+
+		Debug.Log(Core.babies);
 		//
 	}
 	
@@ -126,7 +128,7 @@ public class NetworkManager : MonoBehaviour
 		for (int i = 0; i < Core.babies.Count; ++i) 
 		{
 			GameObject baby = Core.babies[i];
-			Debug.Log ("ID(" +i + "): " +baby.GetComponent<Baby>().networkId);
+			Debug.Log ("ID(" +i + "): " + baby.GetComponent<Baby>().networkId);
 			if (baby.GetComponent<Baby>().networkId == playerId) 
 			{
 				baby.transform.position = newPlayerPosition;
