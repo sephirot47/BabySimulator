@@ -96,7 +96,7 @@ public class NetworkManager : MonoBehaviour
 		{
 			networkID = newPlayerId;
 			Core.babyMe = baby;
-			Camera.main.GetComponent<CameraControl>().babyTransform = baby.transform;
+			Camera.main.GetComponent<CameraControl>().target = baby.transform;
 		}
 	}
 	
