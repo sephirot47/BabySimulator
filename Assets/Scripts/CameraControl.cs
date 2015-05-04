@@ -55,13 +55,9 @@ public class CameraControl : MonoBehaviour
 		
 		// Find the absolute mouse movement value from point zero.
 		_mouseAbsolute += _smoothMouse;
-
-		if(Input.GetMouseButton(1))
-		{
-			x += Input.GetAxis("Mouse X") * xSpeed * 0.02f;
-			y -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
-		}
-		*/
+*/
+		x += Input.GetAxis("Mouse X") * xSpeed * 0.02f;
+		y -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
 
 		float targetRotationAngle = target.eulerAngles.y;
 		float currentRotationAngle = transform.eulerAngles.y;
@@ -79,7 +75,8 @@ public class CameraControl : MonoBehaviour
 		
 		// POSITION CAMERA:
 		transform.position = target.position -(rotation * Vector3.forward * distance + new Vector3(0, -targetHeight, 0));
-		
+
+		/*
 		// IS VIEW BLOCKED?
 		RaycastHit hit; 
 		Vector3 trueTargetPosition = target.position + Vector3.up * 0.5f;
@@ -94,6 +91,7 @@ public class CameraControl : MonoBehaviour
 			// Finally, rePOSITION the CAMERA:
 			transform.position = target.position - (rotation * Vector3.forward * tempDistance + new Vector3(0,-targetHeight,0));
 		}
+		*/
 	}
 	
 	private float ClampAngle(float angle, float min, float max) 
@@ -103,27 +101,3 @@ public class CameraControl : MonoBehaviour
 		return Mathf.Clamp (angle, min, max);
 	}
 }
-
-/*using UnityEngine;
-using System.Collections;
-
-public class CameraControl : MonoBehaviour 
-{
-	public Transform babyTransform;
-	private Camera cam;
-
-	void Start () 
-	{
-		cam = GetComponent<Camera>();
-		babyTransform = null;
-	}
-
-	void Update () 
-	{
-		if(babyTransform != null)
-		{
-			transform.LookAt(babyTransform.position);
-		}
-	}
-}
-*/

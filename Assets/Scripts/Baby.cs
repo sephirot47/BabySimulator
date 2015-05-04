@@ -8,7 +8,7 @@ public class Baby : MonoBehaviour
 	public int networkId = -1;
 
 	private static int numArticulations = 4;
-	private float rotSpeed = 500.0f, forwardSpeed = 0.1f, sideSpeed = 0.1f, jumpForce = 4.0f;
+	private float rotSpeed = 500.0f, forwardSpeed = 150.0f, sideSpeed = 150.0f, jumpForce = 4.0f;
 
 	public float bloodiness = 0.2f;
 
@@ -77,13 +77,14 @@ public class Baby : MonoBehaviour
 			}
 
 			lastVelocity = GetComponent<Rigidbody> ().velocity;
-			
-			if( Input.GetKey(forwardKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(0,0,1) * forwardSpeed, ForceMode.VelocityChange);
-			if( Input.GetKey(backwardKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(0,0,-1) * forwardSpeed, ForceMode.VelocityChange);
-			
-			if( Input.GetKey(leftKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(-1,0,0) * sideSpeed, ForceMode.VelocityChange);
-			if( Input.GetKey(rightKey) ) GetComponent<Rigidbody>().AddForce(new Vector3(1,0,0) * sideSpeed, ForceMode.VelocityChange);
-			
+
+			Vector3 realForward = Vector3.Cross(Camera.main.transform.forward, Vector3.up);
+			if( Input.GetKey(forwardKey) ) GetComponent<Rigidbody>().AddTorque(-realForward * forwardSpeed, ForceMode.VelocityChange);
+			if( Input.GetKey(backwardKey) ) GetComponent<Rigidbody>().AddTorque(realForward * forwardSpeed, ForceMode.VelocityChange);
+			if( Input.GetKey(leftKey) ) GetComponent<Rigidbody>().AddTorque(Camera.main.transform.forward * sideSpeed, ForceMode.VelocityChange);
+			if( Input.GetKey(rightKey) ) GetComponent<Rigidbody>().AddTorque(-Camera.main.transform.forward * sideSpeed, ForceMode.VelocityChange);
+
+			/*
 			if(Input.GetKey(leftKey)) GetComponent<Rigidbody>().AddTorque(new Vector3(0,0,1) * sideSpeed, ForceMode.Impulse);
 			else if(Input.GetKey(rightKey)) GetComponent<Rigidbody>().AddTorque(new Vector3(0,0,1) * -sideSpeed, ForceMode.Impulse);
 			
@@ -98,14 +99,14 @@ public class Baby : MonoBehaviour
 			
 			t = articulations[Articulations.HipL];
 			if(Input.GetKey(backwardKey)) t.rotation *= Quaternion.AngleAxis(-rotSpeed * Time.deltaTime, new Vector3(0,1,0));
-			
-			
+			*/
+
 			if( Input.GetKeyDown(jumpKey) && jumps <= 1)
 			{
 				++jumps;
 				GetComponent<Rigidbody>().AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
 			}
-			
+
 			NetworkManager.SendPositionToOthers(gameObject);
 		}
 	}
