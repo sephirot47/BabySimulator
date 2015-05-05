@@ -7,12 +7,16 @@ public class Baby : MonoBehaviour
 	int jumps = 0;
 	public int networkId = -1;
 
-	private static int numArticulations = 4;
-	private float rotSpeed = 500.0f, forwardSpeed = 150.0f, sideSpeed = 150.0f, jumpForce = 4.0f;
+	public static List<Baby> babies = new List<Baby>();
+	public static List<NetworkPlayer> networkPlayers = new List<NetworkPlayer>();
+
+	NetworkPlayer networkPlayer;
+
+	private float moveSpeed = 0.08f;
+	private float rotSpeed = 500.0f, jumpForce = 4.0f;
 
 	public float bloodiness = 0.2f;
-
-	private Quaternion originalHipLRotation, originalHipRRotation; 
+	
 	private Transform initialTransform;
 
 	private Vector3 lastVelocity;
@@ -21,34 +25,20 @@ public class Baby : MonoBehaviour
 	public KeyCode forwardKey, backwardKey, leftKey, rightKey, jumpKey, resetKey, explosionKey; 
 
 	private ParticleSystem ps;
-
-	private class Articulations
-	{
-		public static int HipR = 0, KneeR = 1,
-						  HipL = 2, KneeL = 3;
-	}
-
-	List<Transform> articulations;
+	
 
 	void Start()
 	{
-		//networkId = -1;
+		if (Core.babyMe == null) 
+		{
+			Core.babyMe = this.gameObject;
+			Camera.main.GetComponent<CameraControl> ().target = transform;
+			networkPlayer = Network.player;
+			babies.Add(this);
+		}
 
 		initialTransform = transform;
 
-		articulations = new List<Transform>();
-		for (int i = 0; i < numArticulations; ++i) articulations.Add (null);
-
-		foreach (Transform t in GetComponentsInChildren<Transform>())
-		{
-			GameObject go = t.gameObject;
-			if(go.name == "ORG-thigh_R") articulations[Articulations.HipR] = t;
-			if(go.name == "ORG-shin_R")  articulations[Articulations.KneeR] = t;
-			if(go.name == "ORG-thigh_L") articulations[Articulations.HipL] = t;
-			if(go.name == "ORG-shin_L")  articulations[Articulations.KneeL] = t;
-		}
-
-		articulations [Articulations.HipL].rotation *= Quaternion.AngleAxis (180.0f, new Vector3 (0, 1, 0));
 
 		//Particle system
 		foreach(Transform t in transform)
@@ -64,51 +54,34 @@ public class Baby : MonoBehaviour
 
 	void FixedUpdate() 
 	{
+		if (Core.babyMe == this.gameObject) 
+		{
+		Vector3 realRight = Vector3.Cross(Camera.main.transform.forward, Vector3.up);
+		Vector3 realForward = Vector3.Cross(Camera.main.transform.right, Vector3.up);
+		if( Input.GetKey(forwardKey) ) GetComponent<Rigidbody>().AddForce(realForward * moveSpeed, ForceMode.VelocityChange);
+		if( Input.GetKey(backwardKey) ) GetComponent<Rigidbody>().AddForce(-realForward * moveSpeed, ForceMode.VelocityChange);
+		if( Input.GetKey(leftKey) ) GetComponent<Rigidbody>().AddForce(realRight * moveSpeed, ForceMode.VelocityChange);
+		if( Input.GetKey(rightKey) ) GetComponent<Rigidbody>().AddForce(-realRight * moveSpeed, ForceMode.VelocityChange);
+		}
 	}
 
 	void Update()
 	{
-		if(gameObject == Core.babyMe)
-		{
-			if(Input.GetKeyDown(explosionKey))
+		if (this.gameObject == Core.babyMe) {
+			if (Input.GetKeyDown (explosionKey)) 
 			{
-				Explode();
-				NetworkManager.SendExplosionToOthers();
+				Explode ();
 			}
 
 			lastVelocity = GetComponent<Rigidbody> ().velocity;
 
-			Vector3 realForward = Vector3.Cross(Camera.main.transform.forward, Vector3.up);
-			if( Input.GetKey(forwardKey) ) GetComponent<Rigidbody>().AddTorque(-realForward * forwardSpeed, ForceMode.VelocityChange);
-			if( Input.GetKey(backwardKey) ) GetComponent<Rigidbody>().AddTorque(realForward * forwardSpeed, ForceMode.VelocityChange);
-			if( Input.GetKey(leftKey) ) GetComponent<Rigidbody>().AddTorque(Camera.main.transform.forward * sideSpeed, ForceMode.VelocityChange);
-			if( Input.GetKey(rightKey) ) GetComponent<Rigidbody>().AddTorque(-Camera.main.transform.forward * sideSpeed, ForceMode.VelocityChange);
-
-			/*
-			if(Input.GetKey(leftKey)) GetComponent<Rigidbody>().AddTorque(new Vector3(0,0,1) * sideSpeed, ForceMode.Impulse);
-			else if(Input.GetKey(rightKey)) GetComponent<Rigidbody>().AddTorque(new Vector3(0,0,1) * -sideSpeed, ForceMode.Impulse);
-			
-			Transform t = articulations[Articulations.HipL];
-			if(Input.GetKey(forwardKey)) t.rotation *= Quaternion.AngleAxis(rotSpeed * Time.deltaTime, new Vector3(0,1,0));
-			
-			t = articulations[Articulations.HipR];
-			if(Input.GetKey(backwardKey)) t.rotation *= Quaternion.AngleAxis(-rotSpeed * Time.deltaTime, new Vector3(0,1,0));
-			
-			t = articulations[Articulations.HipR];
-			if(Input.GetKey(forwardKey)) t.rotation *= Quaternion.AngleAxis(rotSpeed * Time.deltaTime, new Vector3(0,1,0));
-			
-			t = articulations[Articulations.HipL];
-			if(Input.GetKey(backwardKey)) t.rotation *= Quaternion.AngleAxis(-rotSpeed * Time.deltaTime, new Vector3(0,1,0));
-			*/
-
-			if( Input.GetKeyDown(jumpKey) && jumps <= 1)
+			if (Input.GetKeyDown (jumpKey) && jumps <= 1) 
 			{
 				++jumps;
-				GetComponent<Rigidbody>().AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
+				GetComponent<Rigidbody> ().AddForce (new Vector3 (0, jumpForce, 0), ForceMode.Impulse);
 			}
-
-			NetworkManager.SendPositionToOthers(gameObject);
 		}
+
 	}
 
 	public void Explode()
@@ -163,23 +136,38 @@ public class Baby : MonoBehaviour
 		}
 	}
 
-	public Quaternion GetLeftLegRotation()
+	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info) 
 	{
-		return articulations[Articulations.HipL].rotation;
-	}
-	
-	public Quaternion GetRightLegRotation()
-	{
-		return articulations[Articulations.HipR].rotation;
-	}
-	
-	public void SetRightLegRotation(Quaternion r)
-	{
-		articulations[Articulations.HipR].rotation = r;
-	}
+		if(!networkPlayers.Contains(info.sender))
+		{
+			GameObject baby = Instantiate(Resources.Load("Baby"), initialTransform.position, Quaternion.identity) as GameObject;
 
-	public void SetLeftLegRotation(Quaternion r)
-	{
-		articulations[Articulations.HipL].rotation = r;
+			networkPlayers.Add(info.sender);
+
+			baby.GetComponent<Baby>().networkPlayer = info.sender;
+			babies.Add(baby.GetComponent<Baby>());
+		}
+
+		Vector3 pos = new Vector3();
+		Quaternion rot = new Quaternion();
+		if(stream.isWriting)
+		{
+			//SEND MY INFO TO ALL OTHER CLIENTS
+			pos = transform.position;
+			rot = transform.rotation;
+			stream.Serialize(ref pos);
+			stream.Serialize(ref rot);
+		} 
+		else 
+		{
+			//GET INFO
+			if(info.sender == networkPlayer)
+			{
+				stream.Serialize(ref pos);
+				stream.Serialize(ref rot);
+				transform.position = pos;
+				transform.rotation = rot;
+			}
+		}
 	}
 }
